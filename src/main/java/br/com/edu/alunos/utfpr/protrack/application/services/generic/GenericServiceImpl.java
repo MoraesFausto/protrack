@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.edu.alunos.utfpr.protrack.infraestructure.repositories.generic.GenericRepository;
+import br.com.edu.alunos.utfpr.protrack.infrastructure.repositories.generic.GenericRepository;
 
 public abstract class GenericServiceImpl<T, ID extends Serializable> implements GenericService<T, ID> {
 
