@@ -21,8 +21,6 @@ public class JwtTokenProvider {
     private final SecretKey secretKey;
     private final long validityInMillis = 3600000; // 1 hora
 
-
-
     public JwtTokenProvider(@Value("${jwt.secret}") final String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
