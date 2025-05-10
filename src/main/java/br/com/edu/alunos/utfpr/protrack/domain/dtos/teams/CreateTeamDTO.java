@@ -10,11 +10,11 @@ public record CreateTeamDTO(String name, String teamEnd) {
 
     @SneakyThrows
     public CreateTeamDTO {
-        try {
-            Objects.requireNonNull(name);
-            Objects.requireNonNull(teamEnd);
-        } catch (final Exception e) {
-            throw new BadRequestException(e.getMessage());
+        if (Objects.isNull(teamEnd) || teamEnd.isBlank()) {
+            throw new BadRequestException("Team end should not be blank");
+        }
+        if (Objects.isNull(name) || name.isBlank()) {
+            throw new BadRequestException("Team name should not be blank");
         }
     }
 

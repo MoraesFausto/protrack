@@ -42,10 +42,10 @@ public class TeamService extends GenericServiceImpl<Team, Long> {
         final Team team = super.findById(dto.id())
                 .orElseThrow(() -> new NotFoundException(String.format("Team with id %d not found!", dto.id())));
 
-        if(Objects.nonNull(dto.name())){
+        if (Objects.nonNull(dto.name())) {
             team.setNome(dto.name());
         }
-        if (Objects.nonNull(dto.teamEnd())){
+        if (Objects.nonNull(dto.teamEnd())) {
             final TeamEndEnum teamEndEnum = TeamEndEnum.getByEndName(dto.teamEnd())
                     .orElseThrow(InvalidTeamEndException::new);
             team.setTeamEndEnum(teamEndEnum);
@@ -54,6 +54,7 @@ public class TeamService extends GenericServiceImpl<Team, Long> {
     }
 
     public void delete(final Long id) throws NotFoundException {
+        super.findById(id).orElseThrow(() -> new NotFoundException(String.format("Team with id %d not found!", id)));
         repository.deleteById(id);
     }
 
@@ -71,10 +72,10 @@ public class TeamService extends GenericServiceImpl<Team, Long> {
     }
 
     public List<Team> findAllByTeamEnd(final String teamEnd) {
-            final TeamEndEnum teamEndEnum = TeamEndEnum.getByEndName(teamEnd).orElseThrow(InvalidTeamEndException::new);
-            final Team team = new Team();
-            team.setTeamEndEnum(teamEndEnum);
-            final Example<Team> example = Example.of(team);
-            return repository.findBy(example, FluentQuery.FetchableFluentQuery::all);
+        final TeamEndEnum teamEndEnum = TeamEndEnum.getByEndName(teamEnd).orElseThrow(InvalidTeamEndException::new);
+        final Team team = new Team();
+        team.setTeamEndEnum(teamEndEnum);
+        final Example<Team> example = Example.of(team);
+        return repository.findBy(example, FluentQuery.FetchableFluentQuery::all);
     }
 }
