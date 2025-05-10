@@ -120,6 +120,7 @@ public class TeamServiceTest {
         @DisplayName("o método deve deletar o registro do time correspondente ao id passado")
         @Test
         void shouldDeleteTeamById() {
+            when(teamRepository.findById(1L)).thenReturn(Optional.of(new Team()));
             teamService.delete(1L);
             verify(teamRepository, times(1)).deleteById(1L);
         }
