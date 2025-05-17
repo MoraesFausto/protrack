@@ -1,10 +1,15 @@
 package br.com.edu.alunos.utfpr.protrack.domain.models;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.edu.alunos.utfpr.protrack.domain.enums.RoleEnum;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.EmployeeResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Employee {
 
     @Id
@@ -39,8 +45,14 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "employees")
     private List<Team> teams;
+
+    public EmployeeResponse toResponse() {
+        final List<Long> teamIds = this.getTeams().stream().map(Team::getId).collect(Collectors.toList());
+        return new EmployeeResponse(this.id, this.name, this.email, teamIds);
+    }
 
 }
 

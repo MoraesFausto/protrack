@@ -21,8 +21,8 @@ import br.com.edu.alunos.utfpr.protrack.domain.exceptions.BadRequestException;
 import br.com.edu.alunos.utfpr.protrack.domain.exceptions.NotFoundException;
 import br.com.edu.alunos.utfpr.protrack.domain.models.Employee;
 import br.com.edu.alunos.utfpr.protrack.domain.models.Team;
-import br.com.edu.alunos.utfpr.protrack.domain.responses.BindEmployeeToTeamResponse;
-import br.com.edu.alunos.utfpr.protrack.domain.responses.UnbindEmployeeToTeamResponse;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.BindEmployeeToTeamResponse;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.UnbindEmployeeToTeamResponse;
 import br.com.edu.alunos.utfpr.protrack.infrastructure.repositories.EmployeeRepository;
 import br.com.edu.alunos.utfpr.protrack.infrastructure.repositories.TeamRepository;
 

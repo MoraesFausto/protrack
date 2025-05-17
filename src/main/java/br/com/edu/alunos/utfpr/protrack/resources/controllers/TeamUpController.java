@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.alunos.utfpr.protrack.application.services.TeamUpService;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.teamup.BindEmployeeToTeamDTO;
-import br.com.edu.alunos.utfpr.protrack.domain.responses.BindEmployeeToTeamResponse;
-import br.com.edu.alunos.utfpr.protrack.domain.responses.UnbindEmployeeToTeamResponse;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.BindEmployeeToTeamResponse;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.UnbindEmployeeToTeamResponse;
 
 @RestController
 @RequestMapping("/team-up")
