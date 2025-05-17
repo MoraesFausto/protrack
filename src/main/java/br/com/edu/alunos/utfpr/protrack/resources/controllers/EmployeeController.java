@@ -1,5 +1,6 @@
 package br.com.edu.alunos.utfpr.protrack.resources.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.alunos.utfpr.protrack.application.services.EmployeeService;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.employees.CreateEmployeeDTO;
-import br.com.edu.alunos.utfpr.protrack.domain.models.Employee;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.EmployeeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -26,13 +27,14 @@ public class EmployeeController {
 
     @Operation(summary = "Lista todos os funcionarios", description = "Retorna todos os funcionarios cadastrados")
     @GetMapping("")
-    public ResponseEntity<List<Employee>> findAll() {
-        final List<Employee> employees = employeeService.getAll();
+    public ResponseEntity<List<EmployeeResponse>> findAll() {
+        final List<EmployeeResponse> employees = new ArrayList<>();
+        employeeService.getAll().forEach(e -> employees.add(e.toResponse()));
         return ResponseEntity.ok(employees);
     }
 
     @PostMapping("")
-    public ResponseEntity<Employee> create(@RequestBody final CreateEmployeeDTO createEmployeeDTO) {
-        return ResponseEntity.ok(employeeService.create(createEmployeeDTO));
+    public ResponseEntity<EmployeeResponse> create(@RequestBody final CreateEmployeeDTO createEmployeeDTO) {
+        return ResponseEntity.ok(employeeService.create(createEmployeeDTO).toResponse());
     }
 }
