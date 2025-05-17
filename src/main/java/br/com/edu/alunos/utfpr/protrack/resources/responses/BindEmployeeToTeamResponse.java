@@ -1,4 +1,4 @@
-package br.com.edu.alunos.utfpr.protrack.domain.responses;
+package br.com.edu.alunos.utfpr.protrack.resources.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,13 +11,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Builder
-public class UnbindEmployeeToTeamResponse {
+public class BindEmployeeToTeamResponse {
     @JsonProperty("employee")
     private Long employeeId;
-    @JsonProperty("removedFrom")
+    @JsonProperty("addedTo")
     private Long teamId;
 
-    public UnbindEmployeeToTeamResponse(final Long employeeId, final Long teamId) {
+    public BindEmployeeToTeamResponse(final Long employeeId, final Long teamId) {
         this.employeeId = employeeId;
         this.teamId = teamId;
     }

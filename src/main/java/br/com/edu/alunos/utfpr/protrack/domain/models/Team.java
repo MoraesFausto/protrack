@@ -1,21 +1,35 @@
 package br.com.edu.alunos.utfpr.protrack.domain.models;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import br.com.edu.alunos.utfpr.protrack.domain.enums.TeamEndEnum;
-import jakarta.persistence.*;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.TeamResponse;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Team {
 
     @Id
@@ -25,12 +39,7 @@ public class Team {
     private String nome;
 
     @ManyToMany
-    @JoinTable(
-            name = "team_employee",
-            joinColumns = @JoinColumn(name = "team_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id")
-    )
-    @JsonBackReference
+    @JoinTable(name = "team_employee", joinColumns = @JoinColumn(name = "team_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private List<Employee> employees;
 
     @Enumerated(EnumType.STRING)
@@ -39,5 +48,10 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Project> projects;
+
+    public TeamResponse toTeamResponse() {
+        final List<Long> employeeIds = this.getEmployees().stream().map(Employee::getId).collect(Collectors.toList());
+        return new TeamResponse(this.getId(), this.getNome(), employeeIds);
+    }
 }
 

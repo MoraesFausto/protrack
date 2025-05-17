@@ -1,5 +1,6 @@
 package br.com.edu.alunos.utfpr.protrack.resources.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.edu.alunos.utfpr.protrack.application.services.TeamService;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.teams.CreateTeamDTO;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.teams.UpdateTeamDTO;
-import br.com.edu.alunos.utfpr.protrack.domain.models.Team;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.TeamResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -30,29 +31,32 @@ public class TeamController {
 
     @Operation(summary = "Lista todos os times", description = "Retorna todos os times cadastrados")
     @GetMapping("")
-    public ResponseEntity<List<Team>> findAll() {
-        final List<Team> teams = teamService.findAll();
-        return ResponseEntity.ok(teams);
+    public ResponseEntity<List<TeamResponse>> findAll() {
+        final List<TeamResponse> teamResponses = new ArrayList<>();
+        teamService.findAll().forEach(t -> teamResponses.add(t.toTeamResponse()));
+        return ResponseEntity.ok(teamResponses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Team> findById(@PathVariable final Long id) {
-        return ResponseEntity.ok(teamService.getById(id));
+    public ResponseEntity<TeamResponse> findById(@PathVariable final Long id) {
+        return ResponseEntity.ok(teamService.getById(id).toTeamResponse());
     }
 
     @GetMapping("/end/{teamEnd}")
-    public ResponseEntity<List<Team>> findByEnd(@PathVariable final String teamEnd) {
-        return ResponseEntity.ok(teamService.findAllByTeamEnd(teamEnd));
+    public ResponseEntity<List<TeamResponse>> findByEnd(@PathVariable final String teamEnd) {
+        final List<TeamResponse> teamResponses = new ArrayList<>();
+        teamService.findAllByTeamEnd(teamEnd).forEach(t -> teamResponses.add(t.toTeamResponse()));
+        return ResponseEntity.ok(teamResponses);
     }
 
     @PostMapping("")
-    public ResponseEntity<Team> create(@RequestBody final CreateTeamDTO createEmployeeDTO) {
-        return ResponseEntity.ok(teamService.create(createEmployeeDTO));
+    public ResponseEntity<TeamResponse> create(@RequestBody final CreateTeamDTO createEmployeeDTO) {
+        return ResponseEntity.ok(teamService.create(createEmployeeDTO).toTeamResponse());
     }
 
     @PutMapping("")
-    public ResponseEntity<Team> update(@RequestBody final UpdateTeamDTO updateEmployeeDTO) {
-        return ResponseEntity.ok(teamService.update(updateEmployeeDTO));
+    public ResponseEntity<TeamResponse> update(@RequestBody final UpdateTeamDTO updateEmployeeDTO) {
+        return ResponseEntity.ok(teamService.update(updateEmployeeDTO).toTeamResponse());
     }
 
     @DeleteMapping
