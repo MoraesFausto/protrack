@@ -107,7 +107,7 @@ class EmployeeServiceTest {
             verify(employeeRepository, times(1)).save(employee);
             assertEquals(updateResult.getEmail(), employee.getEmail());
             assertEquals(updateResult.getName(), employee.getName());
-            assertTrue(updateResult.getRoleEnum().getRoleName().equalsIgnoreCase(updateEmployeeDTO.roleEnum()));
+            assertTrue(updateResult.getRoleEnum().getRoleName().equalsIgnoreCase(updateEmployeeDTO.role()));
         }
 
         @Test

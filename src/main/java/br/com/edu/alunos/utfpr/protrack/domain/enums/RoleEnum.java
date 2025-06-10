@@ -10,9 +10,9 @@ public enum RoleEnum {
 
     DEVELOPER("Developer"),
     TECH_LEADER("Tech Leader"),
-    PROJECT_OWNER("Project Owner"),
+    PRODUCT_OWNER("Product Owner"),
     MANAGER("Manager"),
-    ADMIN("Admin"),
+    ADMIN("Administrator"),
     ;
 
     private final String roleName;

@@ -1,11 +1,13 @@
 package br.com.edu.alunos.utfpr.protrack.domain.models;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.edu.alunos.utfpr.protrack.domain.enums.RoleEnum;
@@ -50,9 +52,8 @@ public class Employee {
     private List<Team> teams;
 
     public EmployeeResponse toResponse() {
-        final List<Long> teamIds = this.getTeams().stream().map(Team::getId).collect(Collectors.toList());
-        return new EmployeeResponse(this.id, this.name, this.email, teamIds);
+        final List<Long> teamIds = Objects.nonNull(this.getTeams()) ? this.getTeams().stream().map(Team::getId)
+                .collect(Collectors.toList()) : new ArrayList<>();
+        return new EmployeeResponse(this.id, this.name, this.email, this.roleEnum.getRoleName(), teamIds);
     }
-
 }
-

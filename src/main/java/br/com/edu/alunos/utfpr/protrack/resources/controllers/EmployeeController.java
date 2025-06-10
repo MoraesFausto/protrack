@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.alunos.utfpr.protrack.application.services.EmployeeService;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.employees.CreateEmployeeDTO;
-import br.com.edu.alunos.utfpr.protrack.resources.responses.EmployeeResponse;
 import br.com.edu.alunos.utfpr.protrack.domain.dtos.employees.UpdateEmployeeDTO;
 import br.com.edu.alunos.utfpr.protrack.domain.models.Employee;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.EmployeeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -39,8 +39,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable final Long id) {
-        return ResponseEntity.ok(employeeService.getById(id));
+    public ResponseEntity<EmployeeResponse> findById(@PathVariable final Long id) {
+        return ResponseEntity.ok(employeeService.getById(id).toResponse());
     }
 
     @PostMapping("")
@@ -49,8 +49,8 @@ public class EmployeeController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Employee> update(@RequestBody final UpdateEmployeeDTO updateEmployeeDTO) {
-        return ResponseEntity.ok(employeeService.update(updateEmployeeDTO));
+    public ResponseEntity<EmployeeResponse> update(@RequestBody final UpdateEmployeeDTO updateEmployeeDTO) {
+        return ResponseEntity.ok(employeeService.update(updateEmployeeDTO).toResponse());
     }
 
     @DeleteMapping("/{id}")

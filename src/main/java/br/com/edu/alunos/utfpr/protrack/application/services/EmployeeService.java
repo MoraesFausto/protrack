@@ -23,7 +23,7 @@ public class EmployeeService extends GenericServiceImpl<Employee, Long> {
 
     public Employee create(final CreateEmployeeDTO dto) {
         final Employee employee = new Employee();
-        final RoleEnum role = RoleEnum.getByRoleName(dto.roleEnum())
+        final RoleEnum role = RoleEnum.getByRoleName(dto.role())
                 .orElseThrow(() -> new InvalidEmployeeRoleException("Invalid role for employee"));
         employee.setName(dto.name());
         employee.setRoleEnum(role);
@@ -42,8 +42,10 @@ public class EmployeeService extends GenericServiceImpl<Employee, Long> {
                 .equalsIgnoreCase(employee.getEmail())) {
             employee.setEmail(dto.email());
         }
-        employee.setRoleEnum(RoleEnum.getByRoleName(dto.roleEnum())
-                .orElseThrow(() -> new InvalidEmployeeRoleException("Invalid role for employee")));
+        if(Objects.nonNull(dto.role())) {
+            employee.setRoleEnum(RoleEnum.getByRoleName(dto.role())
+                    .orElseThrow(() -> new InvalidEmployeeRoleException("Invalid role for employee")));
+        }
         return super.save(employee);
     }
 
