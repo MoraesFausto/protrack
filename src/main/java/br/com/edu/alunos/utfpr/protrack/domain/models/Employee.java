@@ -51,7 +51,7 @@ public class Employee {
 
     public EmployeeResponse toResponse() {
         final List<Long> teamIds = this.getTeams().stream().map(Team::getId).collect(Collectors.toList());
-        return new EmployeeResponse(this.id, this.name, this.email, teamIds);
+        return new EmployeeResponse(this.id, this.name, this.email, this.roleEnum.getRoleName(), teamIds);
     }
 
 }

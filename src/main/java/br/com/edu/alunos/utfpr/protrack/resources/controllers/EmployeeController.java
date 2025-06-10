@@ -39,8 +39,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable final Long id) {
-        return ResponseEntity.ok(employeeService.getById(id));
+    public ResponseEntity<EmployeeResponse> findById(@PathVariable final Long id) {
+        return ResponseEntity.ok(employeeService.getById(id).toResponse());
     }
 
     @PostMapping("")
