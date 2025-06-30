@@ -10,5 +10,6 @@ import lombok.Getter;
 public class TeamResponse {
     private Long id;
     private String name;
-    private List<Long> employeeIds;
+    private String teamFocus;
+    private List<CompactEmployeeResponse> employees;
 }

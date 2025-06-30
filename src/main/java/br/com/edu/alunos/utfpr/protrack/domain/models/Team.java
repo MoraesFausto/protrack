@@ -1,12 +1,13 @@
 package br.com.edu.alunos.utfpr.protrack.domain.models;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.edu.alunos.utfpr.protrack.domain.enums.TeamEndEnum;
+import br.com.edu.alunos.utfpr.protrack.resources.responses.CompactEmployeeResponse;
 import br.com.edu.alunos.utfpr.protrack.resources.responses.TeamResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,8 +51,14 @@ public class Team {
     private List<Project> projects;
 
     public TeamResponse toTeamResponse() {
-        final List<Long> employeeIds = this.getEmployees().stream().map(Employee::getId).collect(Collectors.toList());
-        return new TeamResponse(this.getId(), this.getNome(), employeeIds);
+        final List<CompactEmployeeResponse> compactEmployeeResponses = new ArrayList<>();
+        for (final Employee employee : this.getEmployees()) {
+            final CompactEmployeeResponse compactEmployeeResponse = new CompactEmployeeResponse(employee.getId(),
+                    employee.getName());
+            compactEmployeeResponses.add(compactEmployeeResponse);
+        }
+        return new TeamResponse(this.getId(), this.getNome(), this.getTeamEndEnum().getEndName(),
+                compactEmployeeResponses);
     }
 }
 
