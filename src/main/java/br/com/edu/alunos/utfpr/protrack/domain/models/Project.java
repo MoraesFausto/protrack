@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.edu.alunos.utfpr.protrack.resources.responses.ProjectResponse;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,8 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Project {
 
     @Id
@@ -43,6 +48,17 @@ public class Project {
         if (tasks.isEmpty()) return 0;
         final long finishedCount = tasks.stream().filter(Task::isFinished).count();
         return (int) ((double) finishedCount / tasks.size() * 100);
+    }
+
+    public ProjectResponse toResponse() {
+        final ProjectResponse response = new ProjectResponse();
+        response.setName(name);
+        response.setDescription(description);
+        response.setClientId(client.getId());
+        response.setTeamId(team.getId());
+        response.setStartDate(startDate);
+        response.setEndDate(endDate);
+        return response;
     }
 }
 
